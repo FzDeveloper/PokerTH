@@ -29,27 +29,29 @@ public class Client  {
      * ustanowic polaczenie z serwerem, w razie niepowodzenia zaznacza
      * odpowiednie pole na rozowo i wyswietla odpowiedni komunikat.
      */
-    public static void Client() {
+    public static boolean Client() {
 
 
-            try {
+        try {
 
-                socket = new Socket(InetAddress.getLocalHost(), 44444);
-                listenSocket();
+            socket = new Socket(InetAddress.getLocalHost(), 44444);
+            listenSocket();
 
-            } catch (UnknownHostException e) {
-                System.out.print("Nieznany host");
-            } catch (IOException e) {
-                System.out.print("Brak polaczenia, sprawdz serwer");
-            }
+        } catch (UnknownHostException e) {
+            System.out.print("Nieznany host");
+        } catch (IOException e) {
+            System.out.print("Brak polaczenia, sprawdz serwer");
+        }
+        return false;
     }
 
     /**
      * Metoda ktora sluzy do wymiany strumieni danych pomiedzy serwerem a
      * klientem
      */
-    public static void listenSocket() {
+    public static boolean listenSocket() {
         try {
+            TableGUI startTable= new TableGUI();
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (UnknownHostException e) {
@@ -57,10 +59,12 @@ public class Client  {
         } catch (IOException e) {
             System.out.print("Brak polaczenia, sprawdz serwer");
         }
+        return false;
     }
-    public static void main(String[] args) {
-        Client();
-
-    }
+   /* public static void main(String[] args) {
+        //StartGUI startGUI= new StartGUI();
+        //Client();
+        ChoosenWindow choose= new ChoosenWindow();*/
+    // }
 }
 

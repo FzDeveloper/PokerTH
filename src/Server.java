@@ -116,8 +116,13 @@ public class Server {
     }
     /** start servera mainem*/
     public static void main(String[] args) {
+        //StartGUI startGUI= new StartGUI();
+        //TableGUI startTable= new TableGUI();
         Server serwer = new Server();
+
+
         while (client == null)
             serwer.Odbierz_polaczenie();
+
     }
 }
