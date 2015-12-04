@@ -69,15 +69,17 @@ public class ChoosenWindow extends JFrame implements KeyListener,ComponentListen
     public void keyReleased(KeyEvent keyEvent) {
 
     }
-    Client isOnline = new Client();
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getActionCommand().equals("Join to exist table")){
+            Client isOnline = new Client();
             isOnline.Client();
 
         }
         if(actionEvent.getActionCommand().equals("Create new table")){
             StartGUI startGUI= new StartGUI();
+
         }
     }
 }

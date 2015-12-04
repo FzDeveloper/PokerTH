@@ -1,17 +1,17 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
+import java.awt.event.*;
 
-public class TableGUI extends JFrame {
+public class TableGUI extends JFrame implements KeyListener,ComponentListener, ActionListener {
 
 	public TableGUI(){
 		super("Texas Hold'em");
 		/**
-		 * gui sto³u, karty s¹ jlabelami, z boku przyciski do licytacji i jtextarea, w którym bêdzie wyœwietlana
-		 * iloœ hajsu w puli podczas licytacji, na razie nie powala piêknoœci¹ dlatego, ¿e w tle 
+		 * gui stoï¿½u, karty sï¿½ jlabelami, z boku przyciski do licytacji i jtextarea, w ktï¿½rym bï¿½dzie wyï¿½wietlana
+		 * iloï¿½ hajsu w puli podczas licytacji, na razie nie powala piï¿½knoï¿½ciï¿½ dlatego, ï¿½e w tle 
 		 * i na miejscu kart powinny byc jpgi
-		 * ale o to zadbam ¿eby by³y
+		 * ale o to zadbam ï¿½eby byï¿½y
 		 */
 		
 		setSize(1320, 760);
@@ -42,6 +42,8 @@ public class TableGUI extends JFrame {
 		JButton call = new JButton("Call");
 		JButton fold = new JButton("Fold");
 		JButton allin = new JButton("All-in");
+		JButton join = new JButton("Join");
+		JButton leave = new JButton("Log out");
 		
 		JLabel stake = new JLabel("W puli:");
 		
@@ -63,6 +65,8 @@ public class TableGUI extends JFrame {
 		layer.add(call, new Integer(1));
 		layer.add(fold, new Integer(1));
 		layer.add(allin, new Integer(1));
+		//layer.add(join, new Integer(1));
+		//layer.add(leave, new Integer(1));
 		
 		check.setBounds(1200, 20, 100, 60);
 		bet.setBounds(1200, 100, 100, 60);
@@ -70,6 +74,8 @@ public class TableGUI extends JFrame {
 		call.setBounds(1200, 260, 100, 60);
 		fold.setBounds(1200, 340, 100, 60);
 		allin.setBounds(1200, 420, 100, 60);
+		join.setBounds(1200, 520, 100, 60);
+		leave.setBounds(1200, 520, 100, 60);
 		
 		layer.add(player01, new Integer(1));
 		layer.add(player02, new Integer(1));
@@ -262,6 +268,50 @@ public class TableGUI extends JFrame {
 		flopcard03.setBackground(Color.BLUE);
 		flopcard04.setBackground(Color.BLUE);
 		//flopcard05.setBackground(Color.BLUE);
+
+	}
+	Client isOnline = new Client();
+
+	@Override
+	public void actionPerformed(ActionEvent actionEvent) {
+		if(actionEvent.getActionCommand().equals("Join")){
+			isOnline.Client();
+
+		}
+	}
+
+	@Override
+	public void componentResized(ComponentEvent componentEvent) {
+
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent componentEvent) {
+
+	}
+
+	@Override
+	public void componentShown(ComponentEvent componentEvent) {
+
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent componentEvent) {
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent keyEvent) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent keyEvent) {
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent keyEvent) {
 
 	}
 }

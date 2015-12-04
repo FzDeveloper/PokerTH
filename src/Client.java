@@ -54,6 +54,9 @@ public class Client  {
             TableGUI startTable= new TableGUI();
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //BufferedReader br = new BufferedReader( new InputStreamReader(System.in) );
+            //System.out.print(in.read());//br.readLine();
+
         } catch (UnknownHostException e) {
             System.out.print("Nieznany host");
         } catch (IOException e) {
