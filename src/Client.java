@@ -16,13 +16,9 @@ public class Client  {
      * nazwa hosta i port serwera
      */
     static Socket socket;
-    /** Strumien wyjscia, bedzie sluzyl do wysylania strumienia danych na serwer */
-    static PrintWriter out = null;
-    /**
-     * Strumien wejscia, bedzie sluzyl do odbierania strumienia danych wyslanego
-     * z serwera
-     */
-    static BufferedReader in = null;
+    static PrintWriter out;
+    static BufferedReader in;
+
 
     /**
      * Metoda ktora przechwytuje podany host i port, a nastepnie probuje
@@ -44,25 +40,38 @@ public class Client  {
         }
         return false;
     }
-
+    public String Player1;
     /**
      * Metoda ktora sluzy do wymiany strumieni danych pomiedzy serwerem a
      * klientem
      */
+    Player w;
     public static boolean listenSocket() {
-        try {
-            TableGUI startTable= new TableGUI();
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            //BufferedReader br = new BufferedReader( new InputStreamReader(System.in) );
-            //System.out.print(in.read());//br.readLine();
+        TableGUI startTable = new TableGUI();
+        while(true) {
+            try {
 
-        } catch (UnknownHostException e) {
-            System.out.print("Nieznany host");
-        } catch (IOException e) {
-            System.out.print("Brak polaczenia, sprawdz serwer");
+                out = new PrintWriter(socket.getOutputStream(), true);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+                String input = in.readLine();
+                //System.out.print(input);//br.readLine();
+                //if(input=="Player1"){
+                out.println("bet");
+                out.flush();
+                //}
+
+
+            } catch (UnknownHostException e) {
+                System.out.print("Nieznany host");
+            } catch (IOException e) {
+                System.out.print("Brak polaczenia, sprawdz serwer");
+            }
+            return false;
         }
-        return false;
+    }
+    public void sendAction(String action){
+
     }
    /* public static void main(String[] args) {
         //StartGUI startGUI= new StartGUI();
@@ -70,4 +79,3 @@ public class Client  {
         ChoosenWindow choose= new ChoosenWindow();*/
     // }
 }
-

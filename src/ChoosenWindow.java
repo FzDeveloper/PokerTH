@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,8 +32,6 @@ public class ChoosenWindow extends JFrame implements KeyListener,ComponentListen
     }
 
     public static void main(String[] args) {
-        //StartGUI startGUI= new StartGUI();
-        //Client();
         ChoosenWindow choose= new ChoosenWindow();
     }
     @Override
@@ -73,9 +72,9 @@ public class ChoosenWindow extends JFrame implements KeyListener,ComponentListen
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         if(actionEvent.getActionCommand().equals("Join to exist table")){
+            //TableGUI startTable = new TableGUI();
             Client isOnline = new Client();
             isOnline.Client();
-
         }
         if(actionEvent.getActionCommand().equals("Create new table")){
             StartGUI startGUI= new StartGUI();

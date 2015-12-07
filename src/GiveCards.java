@@ -10,24 +10,8 @@ public class GiveCards {
      *
      * metoda do ustawienia ilosci kart i ilosci graczy*/
     public List<String> giveCard(List<String> list, int chosencards){
-       /* if(chosencards<2 || players<2){
-            System.out.print("Zbyt mala liczba kart lub graczy\n");
-        }
-        else if(chosencards>52 || players>10){
-            System.out.print("Wybrano zbyt duza ilosc kart lub graczy\n");
-        }
-        else {
-            if (chosencards % players != 0) {
-                int chosencardscorrected = chosencards - chosencards % players;
-                System.out.print("Nie mozna rozdac " + chosencards + " kart dla " + players + " graczy. Rozdano " + chosencardscorrected + " kart." + "\n");
-                rozdajo= rozdajo(list,chosencardscorrected);
-            }
-            else{
-                System.out.print("Rozdano "+chosencards+" kart "+players+" graczom.\n");*/
-                rozdajo= rozdajo(list, chosencards);//tylko to zostaje w wersji do pokera, chociaz i to można uproscic
-         //   }
-       // }
 
+        rozdajo= rozdajo(list, chosencards);//tylko to zostaje w wersji do pokera, chociaz i to można uproscic
         return rozdajo;
     }
     //przypisanie kard do graczy, wg ilosci kart oraz graczy
@@ -45,102 +29,7 @@ public class GiveCards {
         List<String> table= new ArrayList<>();
         List<String> result= new ArrayList<>();
 
-        /*switch (playersondeck){
-            case 2:
-                for(int count=0; count<cardsinstock; count=count+2){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count + 1));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n");
-                return one;
-            case 3:
-                for(int count=0; count<cardsinstock; count=count+3){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count+1));
-                    three.add(stringList.get(count + 2));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n");
-                return one;
-            case 4:
-                for(int count=0; count<cardsinstock; count=count+4){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count+1));
-                    three.add(stringList.get(count+2));
-                    four.add(stringList.get(count+3));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n"
-                        +"Gracz 4: "+four+"\n");
-                return one;
-            case 5:
-                for(int count=0; count<cardsinstock; count=count+5){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count+1));
-                    three.add(stringList.get(count+2));
-                    four.add(stringList.get(count+3));
-                    five.add(stringList.get(count+4));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n"
-                        +"Gracz 4: "+four+"\n"+"Gracz 5: "+five+"\n");
-                return one;
-            case 6:
-                for(int count=0; count<cardsinstock; count=count+6){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count+1));
-                    three.add(stringList.get(count+2));
-                    four.add(stringList.get(count+3));
-                    five.add(stringList.get(count+4));
-                    six.add(stringList.get(count+5));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n"
-                        +"Gracz 4: "+four+"\n"+"Gracz 5: "+five+"\n"+"Gracz 6: "+six+"\n");
-                return one;
-            case 7:
-                for(int count=0; count<cardsinstock; count=count+7){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count+1));
-                    three.add(stringList.get(count+2));
-                    four.add(stringList.get(count+3));
-                    five.add(stringList.get(count+4));
-                    six.add(stringList.get(count+5));
-                    seven.add(stringList.get(count+6));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n"
-                        +"Gracz 4: "+four+"\n"+"Gracz 5: "+five+"\n"+"Gracz 6: "+six+"\n"
-                        +"Gracz 7: "+seven+"\n");
-                return one;
-            case 8:
-                for(int count=0; count<cardsinstock; count=count+8){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count+1));
-                    three.add(stringList.get(count+2));
-                    four.add(stringList.get(count+3));
-                    five.add(stringList.get(count+4));
-                    six.add(stringList.get(count+5));
-                    seven.add(stringList.get(count+6));
-                    eight.add(stringList.get(count+7));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n"
-                        +"Gracz 4: "+four+"\n"+"Gracz 5: "+five+"\n"+"Gracz 6: "+six+"\n"
-                        +"Gracz 7: "+seven+"\n"+"Gracz 8: "+eight+"\n");
-                return one;
-            case 9:
-                for(int count=0; count<cardsinstock; count=count+9){
-                    one.add(stringList.get(count));
-                    two.add(stringList.get(count+1));
-                    three.add(stringList.get(count+2));
-                    four.add(stringList.get(count+3));
-                    five.add(stringList.get(count+4));
-                    six.add(stringList.get(count+5));
-                    seven.add(stringList.get(count+6));
-                    eight.add(stringList.get(count+7));
-                    nine.add(stringList.get(count+8));
-                }
-                System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n"
-                        +"Gracz 4: "+four+"\n"+"Gracz 5: "+five+"\n"+"Gracz 6: "+six+"\n"
-                        +"Gracz 7: "+seven+"\n"+"Gracz 8: "+eight+"\n"+"Gracz 9: "+nine+"\n");
-                return one;
-            case 10:*/
-                for(int count=0; count<cardsinstock; count=count+10){
+            for(int count=0; count<cardsinstock; count=count+10){
                     one.add(stringList.get(count));
                     two.add(stringList.get(count + 1));
                     three.add(stringList.get(count + 2));
@@ -169,13 +58,6 @@ public class GiveCards {
                 result.addAll(nine);
                 result.addAll(ten);
                 result.addAll(table);
-                /*System.out.print("Gracz 1: "+one+"\n"+"Gracz 2: "+two+"\n"+"Gracz 3: "+three+"\n"
-                        +"Gracz 4: "+four+"\n"+"Gracz 5: "+five+"\n"+"Gracz 6: "+six+"\n"
-                        +"Gracz 7: "+seven+"\n"+"Gracz 8: "+eight+"\n"+"Gracz 9: "+nine+"\n"
-                        +"Gracz 10: "+ten+"\n");*/
-                //return result;
-        //}
-
         return result;
     }
 }

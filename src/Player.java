@@ -14,28 +14,32 @@ public class Player extends Thread {
 
 	String nick;
 	int money;
-	
-	//public Player(String nick, int money){
+
+	//public Player(int number){
 	//	this.nick = nick;
 	//	this.money = money;
 	//}
-	
+
 	public void setNick(String nick){
 		this.nick = nick;
 	}
-	
+
 	public String getNick(){
 		return this.nick;
 	}
-	
+
 	public void setMoney(int money){
 		this.money = money;
 	}
-	
+
 	public int getMoney(){
 		return this.money;
 	}
 
+	public int bet(int cash){
+		money= money- cash;
+		return this.money;
+	}
 
 	ServerSocket server = null;
 	Socket client = null;
@@ -47,8 +51,6 @@ public class Player extends Thread {
 	int players[]= new int[10];
 	List<String> player= new ArrayList<>();
 	public Player(ServerSocket server, Socket client) {
-
-
 		try {
 			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			out = new PrintWriter(client.getOutputStream(), true);
@@ -68,67 +70,58 @@ public class Player extends Thread {
 	/** Metoda uruchamiana przez polecenie start(); przy Watku */
 	public void run() {
 		//System.out.println(this.getName() + ": polaczono z serwerem");
-		// this.gamer= this.getName();
 		shuffleit = cards.initialize();
 		Collections.shuffle(shuffleit);
 		karty = howMany.giveCard(shuffleit, 20);
-		// while(true) {
+		 while(true) {
 		try {
 			if(Objects.equals(this.getName(), "Thread-0")){
-				//System.out.print("nie znam się");
 				this.setName("Player1");
-				//action = in[player].readLine();
-				System.out.println(this.getName());
-				//System.out.print(karty.get(1) + karty.get(0));
-				//String output= karty.get(1) + karty.get(0);
-				//out.write(karty.get(1));
-				// System.out.print(karty.get(1));
-				// System.out.print(output);
+				out.println(this.getName());
+				//System.out.print(money+"\n");
+
 			}
 			if(Objects.equals(this.getName(), "Thread-1")){
 				this.setName("Player2");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-2")){
 				this.setName("Player3");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-3")){
 				this.setName("Player4");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-4")){
 				this.setName("Player5");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-5")){
 				this.setName("Player6");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-6")){
 				this.setName("Player7");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-7")){
 				this.setName("Player8");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-8")){
 				this.setName("Player9");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 			if(Objects.equals(this.getName(), "Thread-9")){
 				this.setName("Player10");
-				System.out.println(this.getName());
+				out.println(this.getName());
 			}
 		}
-            /*catch(IOException e){
-                    e.printStackTrace();
-                }*/
 		catch (NullPointerException e) {
 			System.err.print("nullpointexception");
 		}
-		// }
+		 }
 	}
 	/**
 	 * Metoda ktora finalizuje dany watek, in-zamyka strumien wejscia,
@@ -147,5 +140,3 @@ public class Player extends Thread {
 		}
 	}
 }
-
-

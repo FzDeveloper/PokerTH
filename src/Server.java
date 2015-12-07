@@ -1,4 +1,7 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 /**
@@ -12,7 +15,8 @@ public class Server {
     ServerSocket server = null;
     /** Tworzymy wtyczke client ktory takze jest chwilowo pusty */
     static Socket client = null;
-
+    BufferedReader in= null;
+    PrintWriter out= null;
     public Server() {
         try {
             /** Probujemy utworzyc nowy serwer na danym porcie */
@@ -32,28 +36,42 @@ public class Server {
      * Metoda ktora bedzie probowala stworzyc nowy Watek i polaczyc klienta z
      * serwerem
      */
-    public void Odbierz_polaczenie() {
+    public void Odbierz_polaczenie() throws IOException {
+        try {
+            out= new PrintWriter(client.getOutputStream(), true);
+             in= new BufferedReader(new InputStreamReader(client.getInputStream()));
+
+        } catch(NullPointerException e){
+
+        }
         while (true) {
             try {
+
                 client = server.accept();
-                w = new Player(server, client);
                 w.start();
-                client = null;
+                //String input= in.readLine();
+                //System.out.print(input);
+                w = new Player(server, client);
+                w.setMoney(500);
+                //if(input=="bet") {
+                    //int zaklad = w.bet(50);
+                    //System.out.print(zaklad);
+                //}
+
             } catch (IOException e) {
                 System.out.println("Accept failed: 44444");
                 System.exit(-1);
             }
+            client = null;
         }
     }
     /** start servera mainem*/
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //StartGUI startGUI= new StartGUI();
         //TableGUI startTable= new TableGUI();
-       // Server serwer = new Server();
-
-
-        //while (client == null)
-          //  serwer.Odbierz_polaczenie();
+        Server serwer = new Server();
+        while (client == null)
+            serwer.Odbierz_polaczenie();
 
     }
 }

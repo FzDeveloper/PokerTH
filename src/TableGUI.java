@@ -15,10 +15,8 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 		 */
 		
 		setSize(1320, 760);
-		setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
 		//ImageIcon background = new ImageIcon("C:\\Users\\Ja\\workspace\\PokerTH\\trunk\\src\\images\background.jpg");
 		
 		JLayeredPane layer = new JLayeredPane();
@@ -268,16 +266,18 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 		flopcard03.setBackground(Color.BLUE);
 		flopcard04.setBackground(Color.BLUE);
 		//flopcard05.setBackground(Color.BLUE);
+		setVisible(true);
+
 
 	}
-	Client isOnline = new Client();
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		if(actionEvent.getActionCommand().equals("Join")){
-			isOnline.Client();
 
-		}
+		if(actionEvent.getActionCommand().equals("Bet")){
+			//isOnline.sendAction("Bet");
+        }
+
 	}
 
 	@Override
@@ -314,4 +314,6 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 	public void keyReleased(KeyEvent keyEvent) {
 
 	}
+
+
 }

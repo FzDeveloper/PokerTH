@@ -41,22 +41,15 @@ public class StartGUI extends JFrame implements KeyListener,ComponentListener, A
 		ok.addActionListener(this);
 		ok.setBounds(95, 160, 50, 50);
 	}
-	public static void main(String[] args) {
-		StartGUI startGUI= new StartGUI();
-		//Client();
+	//public static void main(String[] args) {
+	//	StartGUI startGUI= new StartGUI();
 
-	}
-
-	int number_Of_Players= 5;
+	//}
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		if(actionEvent.getActionCommand().equals("Utworz")){
-			Server serwer = new Server();
-			System.out.print("uruchomiono");
-			//TableGUI startTable= new TableGUI();
-			//while(number_Of_Players > 0) {
-				serwer.Odbierz_polaczenie();
-			//}
+			//Server serwer = null;
+			//Server serwer = new Server();
 
 		}
 	}
@@ -93,7 +86,5 @@ public class StartGUI extends JFrame implements KeyListener,ComponentListener, A
 
 	@Override
 	public void keyReleased(KeyEvent keyEvent) {
-
-
 	}
 }
