@@ -5,24 +5,25 @@ import java.awt.event.*;
 
 public class TableGUI extends JFrame implements KeyListener,ComponentListener, ActionListener {
 
+	
+		
 	public TableGUI(){
 		//super("Texas Hold'em");
-		/**
-		 * gui sto�u, karty s� jlabelami, z boku przyciski do licytacji i jtextarea, w kt�rym b�dzie wy�wietlana
-		 * ilo� hajsu w puli podczas licytacji, na razie nie powala pi�kno�ci� dlatego, �e w tle 
-		 * i na miejscu kart powinny byc jpgi
-		 * ale o to zadbam �eby by�y
-		 */
+		JPanel panel = new JPanel();
 		
-		setSize(1320, 760);
-		setResizable(false);
+		add(panel);
+		panel.setVisible(true);
+		setResizable(true);
+		setVisible(true);
+		
+		panel.setSize(1320, 760);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//ImageIcon background = new ImageIcon("C:\\Users\\Ja\\workspace\\PokerTH\\trunk\\src\\images\background.jpg");
 		//setLayout(new GridLayout(2,1));
 
 		JLayeredPane layer = new JLayeredPane();
 		
-		add(layer);
+		panel.add(layer);
 		
 		JLabel player01 = new JLabel("Nick Player01");
 		JLabel player02 = new JLabel("Nick Player02");
@@ -64,8 +65,8 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 		layer.add(call, new Integer(1));
 		layer.add(fold, new Integer(1));
 		layer.add(allin, new Integer(1));
-		//layer.add(join, new Integer(1));
-		//layer.add(leave, new Integer(1));
+		layer.add(join, new Integer(1));
+		layer.add(leave, new Integer(1));
 		
 		check.setBounds(1200, 20, 100, 60);
 		bet.setBounds(1200, 100, 100, 60);
@@ -266,11 +267,13 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 		flopcard02.setBackground(Color.BLUE);
 		flopcard03.setBackground(Color.BLUE);
 		flopcard04.setBackground(Color.BLUE);
-		//flopcard05.setBackground(Color.BLUE);
-		setVisible(true);
+		flopcard05.setBackground(Color.BLUE);
+		
+		
+		}
 
 
-	}
+	
 	public void main(){
 		TableGUI startTable = new TableGUI();
 

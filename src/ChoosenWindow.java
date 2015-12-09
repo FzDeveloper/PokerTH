@@ -24,14 +24,19 @@ public class ChoosenWindow extends JFrame implements KeyListener,ComponentListen
         setSize(240,270);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        
+        JPanel panel = new JPanel();
+        add(panel);
+        panel.setVisible(true);
+        panel.setSize(240, 270);
 
         addComponentListener(this);
-        setLayout(new GridLayout(2,1));
+        panel.setLayout(new GridLayout(2,1));
         join.setFont(font);
-        add(join);
+        panel.add(join);
         join.addActionListener(this);
         create.setFont(font);
-        add(create);
+        panel.add(create);
         create.addActionListener(this);
     }
 

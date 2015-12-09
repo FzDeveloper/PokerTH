@@ -16,7 +16,10 @@ public class StartGUI extends JFrame implements KeyListener,ComponentListener, A
 		setVisible(true);
 		setSize(240, 270);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new GridLayout(2,1));
+		
+		JPanel panel = new JPanel();
+		panel.setVisible(true);
+		panel.setLayout(new GridLayout(2,1));
 		JLabel noOfPlayers = new JLabel("Number of players:");
 		numberOfPlayers = new JTextField();
 
