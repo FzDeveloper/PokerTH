@@ -10,17 +10,23 @@ import java.net.Socket;
 /**
  * Klasa Serwera w ktorej serwer jest uruchamiany na podanym porcie
  */
-public class Server {
-    /** Tworzymy wtyczke servera ktora chwilowo jest pusta */
+public class Server extends Thread {
     ServerSocket server = null;
-    /** Tworzymy wtyczke client ktory takze jest chwilowo pusty */
-    static Socket client = null;
-    BufferedReader in= null;
-    PrintWriter out= null;
-    public Server() {
+    Socket client = null;
+    BufferedReader in;
+    PrintWriter out;
+    private boolean running = false;
+    private int port;
+
+    public Server(int port) {
+        this.port = port;
+    }
+
+    public void startServer() {
         try {
             /** Probujemy utworzyc nowy serwer na danym porcie */
             server = new ServerSocket(44444);
+            this.start();
             System.out.println("Uruchomiono serwer na porcie: " + 44444);
         } catch (IOException e) {
             System.out.println("Blad polaczenia na porcie " + 44444);
@@ -29,49 +35,42 @@ public class Server {
 
     }
 
-    /** Deklarujemy klase watki */
-    Player w;
+    public void stopServer() {
+        running = false;
+        this.interrupt();
+    }
 
-    /**
-     * Metoda ktora bedzie probowala stworzyc nowy Watek i polaczyc klienta z
-     * serwerem
-     */
-    public void Odbierz_polaczenie() throws IOException {
-        try {
-            out= new PrintWriter(client.getOutputStream(), true);
-             in= new BufferedReader(new InputStreamReader(client.getInputStream()));
-
-        } catch(NullPointerException e){
-
-        }
+    public void run() {
+        running = true;
         while (true) {
             try {
+                Socket socket = server.accept();
 
-                client = server.accept();
-                w.start();
-                //String input= in.readLine();
-                //System.out.print(input);
-                w = new Player(server, client);
-                w.setMoney(500);
-                //if(input=="bet") {
-                    //int zaklad = w.bet(50);
-                    //System.out.print(zaklad);
-                //}
-
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(socket.getOutputStream());
+                Player requestHandler = new Player(socket);
+                requestHandler.start();
+                requestHandler.setMoney(5000);
+                int cahs = requestHandler.bet(500);
+                //String line = in.readLine();
+                //out.print(cahs);
+                //System.out.print(line);
             } catch (IOException e) {
-                System.out.println("Accept failed: 44444");
-                System.exit(-1);
+                e.printStackTrace();
             }
-            client = null;
         }
     }
     /** start servera mainem*/
     public static void main(String[] args) throws IOException {
-        //StartGUI startGUI= new StartGUI();
-        //TableGUI startTable= new TableGUI();
-        Server serwer = new Server();
-        while (client == null)
-            serwer.Odbierz_polaczenie();
 
+        Server server = new Server(44444);
+        server.startServer();
+        try {
+            Thread.sleep( 60000 );
+        } catch( Exception e ) {
+            e.printStackTrace();
+        }
+
+        server.stopServer();
     }
 }

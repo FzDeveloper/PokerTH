@@ -2,11 +2,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 /**
  * Created by konrad on 02.12.15.
  */
+
 public class ChoosenWindow extends JFrame implements KeyListener,ComponentListener, ActionListener {
+    Client isOnline = new Client();
+
 
     private JFrame jFrame;
     private JButton join= new JButton("Join to exist table");
@@ -71,10 +75,13 @@ public class ChoosenWindow extends JFrame implements KeyListener,ComponentListen
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        if(actionEvent.getActionCommand().equals("Join to exist table")){
-            //TableGUI startTable = new TableGUI();
-            Client isOnline = new Client();
-            isOnline.Client();
+        //startTable.main();
+        if(actionEvent.getActionCommand().equals("Join to exist table")) {
+            try {
+                isOnline.main();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if(actionEvent.getActionCommand().equals("Create new table")){
             StartGUI startGUI= new StartGUI();

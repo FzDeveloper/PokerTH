@@ -6,7 +6,7 @@ import java.awt.event.*;
 public class TableGUI extends JFrame implements KeyListener,ComponentListener, ActionListener {
 
 	public TableGUI(){
-		super("Texas Hold'em");
+		//super("Texas Hold'em");
 		/**
 		 * gui sto�u, karty s� jlabelami, z boku przyciski do licytacji i jtextarea, w kt�rym b�dzie wy�wietlana
 		 * ilo� hajsu w puli podczas licytacji, na razie nie powala pi�kno�ci� dlatego, �e w tle 
@@ -18,7 +18,8 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		//ImageIcon background = new ImageIcon("C:\\Users\\Ja\\workspace\\PokerTH\\trunk\\src\\images\background.jpg");
-		
+		//setLayout(new GridLayout(2,1));
+
 		JLayeredPane layer = new JLayeredPane();
 		
 		add(layer);
@@ -270,13 +271,17 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 
 
 	}
+	public void main(){
+		TableGUI startTable = new TableGUI();
+
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 
 		if(actionEvent.getActionCommand().equals("Bet")){
-			//isOnline.sendAction("Bet");
-        }
+			System.out.print("cokolwiek");
+		}
 
 	}
 

@@ -38,11 +38,12 @@ public class Player extends Thread {
 
 	public int bet(int cash){
 		money= money- cash;
+
 		return this.money;
 	}
 
 	ServerSocket server = null;
-	Socket client = null;
+	private Socket socket;
 	String action=" ";
 	BufferedReader in = null;
 	PrintWriter out = null  ;
@@ -50,17 +51,11 @@ public class Player extends Thread {
 	String gamer;
 	int players[]= new int[10];
 	List<String> player= new ArrayList<>();
-	public Player(ServerSocket server, Socket client) {
-		try {
-			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-			out = new PrintWriter(client.getOutputStream(), true);
+	public Player(Socket socket) {
 
-			this.server = server;
-			this.client = client;
-		} catch (IOException e) {
-			System.out.println(this.getName() + ": brak dostepu do portu: " + server.getLocalPort());
-			this.finalize();
-		}
+
+		this.server = server;
+		this.socket = socket;
 	}
 	private static CreateCards cards= new CreateCards();
 	private static GiveCards howMany= new GiveCards();
@@ -73,23 +68,29 @@ public class Player extends Thread {
 		shuffleit = cards.initialize();
 		Collections.shuffle(shuffleit);
 		karty = howMany.giveCard(shuffleit, 20);
-		 while(true) {
-		try {
-			if(Objects.equals(this.getName(), "Thread-0")){
-				this.setName("Player1");
-				out.println(this.getName());
-				//System.out.print(money+"\n");
 
-			}
+		try {
+			BufferedReader in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+			PrintWriter out = new PrintWriter( socket.getOutputStream(), true );
+
+
 			if(Objects.equals(this.getName(), "Thread-1")){
-				this.setName("Player2");
+				this.setName("Player1");
+				out.println(getMoney());//juak dawalem tutaj out.print(message), to wywalalo :c
 				out.println(this.getName());
+				//System.out.print(line+ this.getName());
+					//out.flush();
 			}
 			if(Objects.equals(this.getName(), "Thread-2")){
+				this.setName("Player2");
+				out.println(this.getName());
+				out.println(getMoney());
+			}
+			if(Objects.equals(this.getName(), "Thread-3")){
 				this.setName("Player3");
 				out.println(this.getName());
 			}
-			if(Objects.equals(this.getName(), "Thread-3")){
+			if(Objects.equals(this.getName(), "Thread-4")){
 				this.setName("Player4");
 				out.println(this.getName());
 			}
@@ -117,26 +118,28 @@ public class Player extends Thread {
 				this.setName("Player10");
 				out.println(this.getName());
 			}
-		}
-		catch (NullPointerException e) {
-			System.err.print("nullpointexception");
-		}
-		 }
-	}
-	/**
-	 * Metoda ktora finalizuje dany watek, in-zamyka strumien wejscia,
-	 * out-zamyka strumien wyjscia, client-rozlacza klienta
-	 */
-	protected void finalize() {
-		try {
+			String line;
+			int zaklad;
+			while((line = in.readLine()) != null ) {
+				System.out.println("Echo: " + line);
+				if(line =="bet"){
+					zaklad= bet(30);
+					out.println(zaklad);
+				}
+
+				//out.flush();
+				//line = in.readLine();
+			}
 			in.close();
 			out.close();
-			client.close();
+			socket.close();
 
-
+		} catch (NullPointerException e) {
+			System.err.print("nullpointexception");
 		} catch (IOException e) {
-			System.out.println(this.getName() + ": nie udalo sie rozlaczyc");
-			System.exit(-1);
+			e.printStackTrace();
 		}
+
 	}
+
 }
