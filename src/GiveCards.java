@@ -4,7 +4,7 @@ import java.util.List;
 /**
  * Created by konrad on 21.10.15.
  */
-public class GiveCards {
+public class GiveCards{
     List<String> rozdajo;
     /** tutaj powinienem coÅ› zmienic, ale poki co zostawie, zebys mogla sie polapac o co chodzi
      *
@@ -60,5 +60,77 @@ public class GiveCards {
                 result.addAll(table);
         return result;
     }
+    /**
+     * 
+     * @param playersnumber numer gracza
+     * @param cards lista z kartami wszystkich graczy i kartami na stole
+     * @return listê z kartami w rêce gracza o zadanym numerze playersnumber
+     */
+    public List<String> playerscards(int playersnumber, List<String> cards){
+    	List<String> cardsOfPlayer = new ArrayList<>();
+
+    	int cardIndex = 0;
+    	//int counter = 0;
+    	
+    	for(int i=1; i<playersnumber; i++){
+    			//counter++;
+    			cardIndex++;
+    	}
+    	
+    	cardsOfPlayer.add(cards.get(cardIndex*2));
+    	cardsOfPlayer.add(cards.get(2*cardIndex+1));
+    	
+    	
+    	return cardsOfPlayer;
+    	
+    	
+    }
+    
+    public List<String> tableCards(List<String> cards){
+    	List<String> table = new ArrayList<>();
+    	for(int count=20; count<25; ++count) {
+            table.add(cards.get(count));
+        }
+    	return table;
+    }
+    
+    public void sort(List<String> sortcards){
+    	for(int i=0; i<sortcards.size(); i++){
+    		//tubedziesortowanie
+    	}
+    }
+    
+    /**
+     * 
+     * @param table lista z kartami na stole
+     * @param uklad lista z kartami w rêku gracza
+     * @param player numer gracza
+     * @return
+     */
+   /* public int uklady(List<String> table, List<String> uklad, int player){
+    
+    	List<String> cards = new ArrayList<>();
+    	CreateCards card = new CreateCards();
+    	
+    	int ukladzik;
+    	
+    	cards.addAll(this.playerscards(player, uklad));
+    	cards.addAll(this.tableCards(table));
+    	//po posortowaniu kart wg koloru i figury patrzymy tylko na pierwsze 5
+    	for(int i=0; i<5; i++){
+    		if(cards.indexOf(card.getSuite(cards, i))==cards.indexOf(card.getSuite(cards, i+1)) && 
+    		   cards.indexOf(card.getRank(cards, i))-cards.indexOf(card.getRank(cards, i+1))==1){
+    				ukladzik = -8;
+    		}
+    		else{
+    			ukladzik = cards.indexOf(card.getRank(cards, 0));
+    		}
+    		
+    		
+    	}
+ 	return ukladzik;
+    }*/
+
+	
 }
 

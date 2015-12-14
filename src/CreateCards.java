@@ -21,4 +21,27 @@ public class CreateCards {
         }
         return listOfCards;
     }
+    public String getSuite(List<String> deck, int card){
+    	String suite = deck.get(card);
+    	int index = suite.indexOf(" ");
+    	suite = suite.substring(0, index);
+    	return suite;
+    }
+    
+    public String getRank(List<String> deck, int card){
+    	String rank = deck.get(card);
+    	int index = rank.indexOf(" ");
+    	rank = rank.substring(index, rank.length()-1);
+    	return rank;
+    }
+    
+    public String[] getSuiteArray(){
+    	return this.suite;
+    }
+    
+    public String[] getRankArray(){
+    	return this.rank;
+    }
+    
+  
 }
