@@ -6,7 +6,8 @@ public class StartGUI extends JFrame implements KeyListener,ComponentListener, A
 
 	public JTextField numberOfPlayers;
 	public JTextField money;
-	
+    String cash;
+    String participants;
 	public StartGUI(){
 		/**
 		 * okienko do wprowadzenia parametr�w wej�ciowych tzn liczby graczy
@@ -31,7 +32,6 @@ public class StartGUI extends JFrame implements KeyListener,ComponentListener, A
 		
 		JLabel moneyForAPlayer = new JLabel("Money for each player:");
 		money = new JTextField();
-		
 		add(moneyForAPlayer);
 		add(money);
 		
@@ -44,17 +44,32 @@ public class StartGUI extends JFrame implements KeyListener,ComponentListener, A
 		ok.addActionListener(this);
 		ok.setBounds(95, 160, 50, 50);
 	}
-	//public static void main(String[] args) {
-	//	StartGUI startGUI= new StartGUI();
+	public static void main(String[] args) {
+		StartGUI startGUI= new StartGUI();
 
-	//}
+	}
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
+        Player requestHandler= null;
 		if(actionEvent.getActionCommand().equals("Utworz")){
 			//Server serwer = null;
 			//Server serwer = new Server();
+			Server server = new Server(44444);
 
+            cash= money.getText();
+            participants= numberOfPlayers.getText();
+
+            server.startServer(Integer.parseInt(participants),Integer.parseInt(cash));
+
+            try {
+				Thread.sleep(60000);
+			} catch( Exception e ) {
+				e.printStackTrace();
+			}
+
+			server.stopServer();
 		}
+
 	}
 
 	@Override

@@ -17,16 +17,22 @@ public class Server extends Thread {
     PrintWriter out;
     private boolean running = false;
     private int port;
+    private int money;
+    private int players;
+    Player w;
 
     public Server(int port) {
         this.port = port;
     }
 
-    public void startServer() {
+    public void startServer(int players, int money) {
         try {
             /** Probujemy utworzyc nowy serwer na danym porcie */
             server = new ServerSocket(44444);
             this.start();
+            this.money= money;
+            this.players= players;
+
             System.out.println("Uruchomiono serwer na porcie: " + 44444);
         } catch (IOException e) {
             System.out.println("Blad polaczenia na porcie " + 44444);
@@ -48,20 +54,18 @@ public class Server extends Thread {
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream());
-                Player requestHandler = new Player(socket);
+                Player requestHandler = new Player(socket, client);
                 requestHandler.start();
-                requestHandler.setMoney(5000);
-                int cahs = requestHandler.bet(500);
-                //String line = in.readLine();
-                //out.print(cahs);
-                //System.out.print(line);
+                requestHandler.setMoney(money);
+                requestHandler.howManyPlayers(players);
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
     /** start servera mainem*/
-    public static void main(String[] args) throws IOException {
+    /*public static void main() throws IOException {
 
         Server server = new Server(44444);
         server.startServer();
@@ -72,5 +76,5 @@ public class Server extends Thread {
         }
 
         server.stopServer();
-    }
+    }*/
 }
