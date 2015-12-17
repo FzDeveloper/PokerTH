@@ -15,8 +15,11 @@ public class Player extends Thread {
 	List<String> shuffleit;
 	List<String> karty;
 	static String guy;
+	static String equils;
 	static int myBet;
 	static int[] moneyTab= new int[10];
+	static String[] gamers= {"Player1","Player2","Player3","Player4","Player5","Player6","Player7","Player8",
+			"Player9","Player10",};
 	private Socket socket;
 	Socket client;
 	static int countOfPlayers;
@@ -115,6 +118,22 @@ public class Player extends Thread {
 	public void fold(){
 
 	}
+	public void setPlayer(){
+		if(equils== null){
+			equils= "Player1";
+		}
+	}
+	public void nextPlayer(){
+		int x=0;
+
+		//for( int x= 0; x< 10; ++x){
+			while(!(equils.equals(gamers[x]))){
+				++x;
+			}
+		equils= gamers[(x+1)%10];
+
+		System.out.print(equils);
+	}
 
 	public void bet(int cash){
 		if((moneyTab[valueOfPlayer()]- cash)> 0) {
@@ -181,8 +200,9 @@ public class Player extends Thread {
 			}
 			String line;
 			int zaklad;
-
+			setPlayer();
 			while((line = in.readLine()) != null ) {
+
 				if(line.equals("Player1")){
 					guy= "Player1";
 				}if(line.equals("Player2")){
@@ -204,28 +224,34 @@ public class Player extends Thread {
 				}if(line.equals("Player10")){
 					guy= "Player10";
 				}
-				if(line.equals("check")) {
+				if(line.equals("check")& (guy.equals(equils))) {
 					check();
+					nextPlayer();
 				}
-				if(line.equals("bet")){
+				if(line.equals("bet")& (guy.equals(equils))){
 					bet(20);
 					zaklad = getMoney();
 					System.out.println(zaklad);
+					nextPlayer();
 				}
-				if(line.equals("all_in")) {
+				if(line.equals("all_in")& (guy.equals(equils))) {
 					all_in();
+					nextPlayer();
 				}
-				if(line.equals("fold")) {
+				if(line.equals("fold")& (guy.equals(equils))) {
 					fold();
+					nextPlayer();
 				}
-				if(line.equals("raise")) {
+				if(line.equals("raise")& (guy.equals(equils))) {
 					raise(30);
 					zaklad = getMoney();
 					System.out.println(zaklad);
 					System.out.println(moneyTab[0]);
+					nextPlayer();
 				}
-				if(line.equals("call")) {
+				if(line.equals("call")& (guy.equals(equils))) {
 					call();
+					nextPlayer();
 				}
 			}
 			in.close();
