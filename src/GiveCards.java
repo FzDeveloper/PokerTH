@@ -1,4 +1,6 @@
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -95,9 +97,34 @@ public class GiveCards{
     }
     
     public void sort(List<String> sortcards){
-    	for(int i=0; i<sortcards.size(); i++){
-    		//tubedziesortowanie
+    	CreateCards create = new CreateCards();
+    	
+    	final String[] rank = create.getRankArray();
+    	final String[] suite = create.getSuiteArray();
+    	
+    	String temp;
+    	
+    	for(int i=sortcards.size()-1; i<0; i--){
+    		if(Arrays.asList(rank).indexOf(this.getSuite(sortcards, i))==Arrays.asList(rank).indexOf(this.getSuite(sortcards, i-1))){
+    			temp = sortcards.get(i);
+    			sortcards.add(i-1, sortcards.get(i));
+    			sortcards.add(i, temp);
+    		}
     	}
+    }
+    
+    public String getSuite(List<String> deck, int card){
+    	String suite = deck.get(card);
+    	int index = suite.indexOf(" ");
+    	suite = suite.substring(0, index);
+    	return suite;
+    }
+    
+    public String getRank(List<String> deck, int card){
+    	String rank = deck.get(card);
+    	int index = rank.indexOf(" ");
+    	rank = rank.substring(index, rank.length()-1);
+    	return rank;
     }
     
     /**
@@ -107,30 +134,102 @@ public class GiveCards{
      * @param player numer gracza
      * @return
      */
-   /* public int uklady(List<String> table, List<String> uklad, int player){
+    //metoda zwraca listê z kartami gracza i kartami na stole,
+    //przyda siê przy sortowaniu i wy³anianiu zwyciêzcy
+    public List<String> karty(List<String> table, List<String> hand, int player){
+
+    	List<String> cards = new ArrayList<>();
+    	CreateCards card = new CreateCards();
+    	cards.addAll(this.playerscards(player, hand));
+    	cards.addAll(this.tableCards(table));
+    	return cards;
+    	
+    }
+    
+    
+    public int uklady(List<String> table, List<String> uklad, int player){
     
     	List<String> cards = new ArrayList<>();
     	CreateCards card = new CreateCards();
     	
-    	int ukladzik;
+    	int counter = 0;
+    	int ukladzik = 0;
+    	
     	
     	cards.addAll(this.playerscards(player, uklad));
     	cards.addAll(this.tableCards(table));
-    	//po posortowaniu kart wg koloru i figury patrzymy tylko na pierwsze 5
-    	for(int i=0; i<5; i++){
-    		if(cards.indexOf(card.getSuite(cards, i))==cards.indexOf(card.getSuite(cards, i+1)) && 
-    		   cards.indexOf(card.getRank(cards, i))-cards.indexOf(card.getRank(cards, i+1))==1){
-    				ukladzik = -8;
-    		}
-    		else{
-    			ukladzik = cards.indexOf(card.getRank(cards, 0));
-    		}
-    		
-    		
-    	}
- 	return ukladzik;
-    }*/
+    	
 
-	
+    	for(int a=0; a<7; a++){
+    		for(int b=6; b<=0; b--){
+    			if(this.getRank(cards, a).equals(this.getRank(cards, b))){
+    				ukladzik = 13; //para
+    			}
+    		}
+    	}
+    	
+    	for(int p=0; p<7; p++){
+    		for(int q=6; q<=0; q--){
+    			if(this.getRank(cards, p).equals(this.getRank(cards, q))){
+    				counter++;
+    			}
+    		}
+    		if(counter==2){
+    			ukladzik = 14; //dwie pary
+    		}
+    	}
+    	
+    	for(int m=0; m<7; m++){
+    		if(this.getRank(cards, m).equals(this.getRank(cards, m+1))){
+    			counter++; //trojka 
+    		}
+    		if(counter==3){
+    			ukladzik = 15;
+    		}
+    	}
+    	
+    	for(int l=0; l<7; l++){
+    		if(Arrays.asList(cards).indexOf(this.getRank(cards, l))-Arrays.asList(cards).indexOf(this.getRank(cards,  l+1))==1){
+    			ukladzik =  16; //strit
+    		}
+    	}
+    	
+    	for(int k=0; k<7; k++){
+    		for(int y=6; y<=0; y--){
+    			if(this.getSuite(cards, k).equals(this.getSuite(cards, k+1))){
+    				ukladzik = 17; //kolor
+    			}
+    		}
+    	}
+    	
+    	for(int j=0; j<7; j++){
+    		for(int x=6; x<=0; x--){
+    			if(this.getRank(cards, j).equals(this.getRank(cards, j+1))){
+    				ukladzik =  18; //czworka
+    			}
+    		}
+    	}
+    	
+    	for(int i=0; i<7; i++){
+    		if(this.getSuite(cards, i).equals(this.getSuite(cards, i+1)) && 
+    				Arrays.asList(cards).indexOf(this.getSuite(cards, i))-Arrays.asList(cards).indexOf(this.getSuite(cards, i+1))==1){
+    			ukladzik =  19; //poker
+    		}
+    	}
+    	return ukladzik;
+    }
+    
+    public int highCard(List<String> table, List<String> hand, int player){
+    	return Arrays.asList(hand).indexOf(this.getRank(hand, hand.size()-1));
+    }
+    
+    public int andTheWinnerIs(List<String> table, List<String> hand, int player){
+    	if(uklady(table, hand, player)==0){
+    		return highCard(table, hand, player);
+    	}
+    	else{
+    		return uklady(table, hand, player);
+    	}
+    }
 }
 
