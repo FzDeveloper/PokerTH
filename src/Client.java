@@ -4,16 +4,20 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client extends JFrame {
+public class Client extends JFrame implements Runnable  {
     Socket socket;
     PrintStream out;
     BufferedReader in;
     static String player;
+    static String pot;
     //TableGUI table= new TableGUI();
     public void bet() throws IOException {
         Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
@@ -22,7 +26,7 @@ public class Client extends JFrame {
         out.println("bet");
         out.flush();
         out.close();
-        socket.close();
+        //socket.close();
 
     }
     public void raise() throws IOException{
@@ -32,7 +36,7 @@ public class Client extends JFrame {
         out.println("raise");
         out.flush();
         out.close();
-        socket.close();
+        //socket.close();
     }
     public void call() throws IOException{
         Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
@@ -41,7 +45,7 @@ public class Client extends JFrame {
         out.println("call");
         out.flush();
         out.close();
-        socket.close();
+        //socket.close();
     }
     public void fold() throws IOException{
         Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
@@ -50,7 +54,7 @@ public class Client extends JFrame {
         out.println("bet");
         out.flush();
         out.close();
-        socket.close();
+        //socket.close();
     }
     public void all_in() throws IOException{
         Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
@@ -59,7 +63,7 @@ public class Client extends JFrame {
         out.println("all_in");
         out.flush();
         out.close();
-        socket.close();
+        //socket.close();
     }
     public void check() throws IOException{
         Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
@@ -68,59 +72,12 @@ public class Client extends JFrame {
         out.println("check");
         out.flush();
         out.close();
-        socket.close();
+       // socket.close();
     }
-    public void main() throws IOException {
-        String line;
-        try {
-            Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-            PrintStream out = new PrintStream(socket.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            //out.println("bet");
-            //out.println("bet(30)");
-            //out.flush();
-            new TableGUI();
+    /*public void main() throws IOException {
+       run();
 
-            //bet();
-            //out.println(player.bet(60));// teraz nie wiem tylko, jak wysylac zapytania do funkcji na server
-             //while ((
-            line = in.readLine(); //) != null) {
-            //}
-            if(line.equals("Player1")){
-                player= "Player1";
-            }if(line.equals("Player2")){
-                player= "Player2";
-            }if(line.equals("Player3")){
-                player= "Player3";
-            }if(line.equals("Player4")){
-                player= "Player4";
-            }if(line.equals("Player5")){
-                player= "Player5";
-            }if(line.equals("Player6")){
-                player= "Player6";
-            }if(line.equals("Player7")){
-                player= "Player7";
-            }if(line.equals("Player8")){
-                player= "Player8";
-            }if(line.equals("Player9")){
-                player= "Player9";
-            }if(line.equals("Player10")){
-                player= "Player10";
-            }
-            System.out.print(player);
-            in.close();
-            out.close();
-            socket.close();
-        } catch (UnknownHostException e) {
-            System.out.print("Nieznany host");
-        } catch (IOException e) {
-            System.out.print("Brak polaczenia, sprawdz serwer");
-        }
-
-
-
-
-    }
+    }*/
     public void TableGUI1(){
         //super("Texas Hold'em");
         /**
@@ -386,5 +343,61 @@ public class Client extends JFrame {
         setVisible(true);
 
 
+    }
+   // TableGUI table= new TableGUI();
+    @Override
+    public void run() {
+        String line;
+        try {
+            Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
+            PrintStream out = new PrintStream(socket.getOutputStream());
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            while ((line = in.readLine()) != null) {
+                System.out.print(line);
+
+                if (line.equals("Player1")) {
+                    player = "Player1";
+                }
+                if (line.equals("Player2")) {
+                    player = "Player2";
+                }
+                if (line.equals("Player3")) {
+                    player = "Player3";
+                }
+                if (line.equals("Player4")) {
+                    player = "Player4";
+                }
+                if (line.equals("Player5")) {
+                    player = "Player5";
+                }
+                if (line.equals("Player6")) {
+                    player = "Player6";
+                }
+                if (line.equals("Player7")) {
+                    player = "Player7";
+                }
+                if (line.equals("Player8")) {
+                    player = "Player8";
+                }
+                if (line.equals("Player9")) {
+                    player = "Player9";
+                }
+                if (line.equals("Player10")) {
+                    player = "Player10";
+                }
+                if (line.equals("pot")) {
+                    pot = line;
+                }
+
+            }
+            in.close();
+            out.close();
+            socket.close();
+
+        } catch (UnknownHostException e) {
+            System.out.print("Nieznany host");
+        } catch (IOException e) {
+            System.out.print("Brak polaczenia, sprawdz serwer");
+        }
     }
 }

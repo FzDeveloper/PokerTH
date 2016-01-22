@@ -1,8 +1,6 @@
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 
 public class TableGUI extends JFrame implements KeyListener,ComponentListener, ActionListener {
@@ -15,10 +13,17 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 	JButton allin = new JButton("All-in");
 	JButton join = new JButton("Join");
 	JButton leave = new JButton("Log out");
-	
-		
-	public TableGUI(){
-		//super("Texas Hold'em");
+	JLabel stake = new JLabel("W puli:");
+
+	Client client= new Client();
+	String potek;
+	public TableGUI() {
+		super("Texas Hold'em");
+		initComponents();
+	}
+
+
+	private void initComponents(){
 
 		setSize(1320, 760);
 		setResizable(false);
@@ -29,9 +34,9 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 
 		add(layer);
 
-		ImageIcon card = new ImageIcon("/images/card.jpg");
+		ImageIcon card = new ImageIcon("src/images/card.jpg");
 		
-		ImageIcon backgroundimage = new ImageIcon("/images/background.jpg");
+		ImageIcon backgroundimage = new ImageIcon("src/images/background.jpg");
 		JLabel background = new JLabel(backgroundimage);
 		background.setBounds(0, 0, 1320, 760);
 		
@@ -50,7 +55,6 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 
 
 
-		JLabel stake = new JLabel("W puli:");
 
 		layer.add(stake, new Integer(1));
 
@@ -63,6 +67,9 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 		stakes.setBounds(1050, 530, 100, 40);
 
 		stakes.setEditable(false);
+
+
+
 
 		layer.add(check, new Integer(1));
 		layer.add(bet, new Integer(1));
@@ -262,15 +269,23 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 
 
 	
-	/*public void main(){
-		TableGUI startTable = new TableGUI();
+	public void main(){
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				new TableGUI();			}
+		});
 
 
-	}*/
-	Client client= new Client();
+
+
+	}
 
 	public void actionPerformed(ActionEvent actionEvent) {
+
 		Object source= actionEvent.getSource();
+
 		if(source== bet){
 			try {
 				client.bet();

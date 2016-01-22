@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
 
 public class Player extends Thread {
 
@@ -16,15 +17,21 @@ public class Player extends Thread {
 	List<String> karty;
 	static String guy;
 	static String equils;
-	static int myBet;
+	static int[] myBet= new int[10];
 	static int[] moneyTab= new int[10];
 	static String[] gamers= {"Player1","Player2","Player3","Player4","Player5","Player6","Player7","Player8",
 			"Player9","Player10",};
+	static int[]folds= new int[10];
 	private Socket socket;
 	Socket client;
 	static int countOfPlayers;
 	static int pot=0;
 	static int highestBet=0;
+	static int sb;
+	static int bb;
+	static int what;
+	PrintWriter out;
+
 	public void howManyPlayers(int hmp){
 		if(countOfPlayers==0) {
 			countOfPlayers = hmp;
@@ -34,7 +41,8 @@ public class Player extends Thread {
 	public void raise(int rai){
 		if((moneyTab[valueOfPlayer()]- rai)> 0) {
 			pot += rai;
-			moneyTab[valueOfPlayer()] -= rai;
+			myBet[valueOfPlayer()]+= myBet[valueOfPlayer()]+ rai;
+			moneyTab[valueOfPlayer()]-= rai;
 		}
 
 	}
@@ -64,26 +72,25 @@ public class Player extends Thread {
 		return vop;
 	}
 	public void maxBet(){
-		int maxBet= moneyTab[0];
+		int maxBet= myBet[0];
 		for (int max= 0; max< countOfPlayers; ++max){
-			if(moneyTab[max]>maxBet)
-				maxBet=moneyTab[max];
+			if(myBet[max]>maxBet)
+				maxBet=myBet[max];
 		}
 		highestBet= maxBet;
 	}
 	public void myBet(int bet){
-		 myBet= bet;
 	}
 	public void call(){
-		if(highestBet-myBet> 0){
-		pot+= highestBet- myBet;
-		moneyTab[valueOfPlayer()]-= highestBet-myBet;
-		myBet=highestBet;
+		if(highestBet-moneyTab[valueOfPlayer()]> 0){
+		pot+= highestBet- myBet[valueOfPlayer()];
+		moneyTab[valueOfPlayer()]-= highestBet-myBet[valueOfPlayer()];
 		}
 
 	}
  	public void checkWinners(){
 
+		clearFolds();
 	}
 	public void all_in(){
 		pot+= moneyTab[valueOfPlayer()];
@@ -92,7 +99,7 @@ public class Player extends Thread {
 	public void shuffleCards(){
 		shuffleit = cards.initialize();
 		Collections.shuffle(shuffleit);
-		this.karty = howMany.giveCard(shuffleit, 20);
+		karty = howMany.giveCard(shuffleit, 20);
 	}
 
 	public void setMoney(int money){
@@ -105,7 +112,12 @@ public class Player extends Thread {
 	}
 
 
-	public int getMoney(){
+	public int getMoney() throws IOException {
+		//System.out.print(moneyTab[valueOfPlayer()]);
+		//out.println(moneyTab[valueOfPlayer()]);
+		//out.flush();
+		//out.close();
+		//socket.close();
 		return moneyTab[valueOfPlayer()];
 	}
 
@@ -113,9 +125,17 @@ public class Player extends Thread {
 		pot= 0;
 	}
 	public void check(){
-
+		nextPlayer();
 	}
 	public void fold(){
+		folds[valueOfPlayer()]= 1;
+		nextPlayer();
+	}
+	public void clearFolds(){
+		for (int food= 0; food< 10;++food){
+			folds[food]= 0;
+			myBet[food]= 0;
+		}
 
 	}
 	public void setPlayer(){
@@ -125,21 +145,54 @@ public class Player extends Thread {
 	}
 	public void nextPlayer(){
 		int x=0;
-
-		//for( int x= 0; x< 10; ++x){
-			while(!(equils.equals(gamers[x]))){
-				++x;
-			}
+		while(!(equils.equals(gamers[x]))){
+			++x;
+		}
 		equils= gamers[(x+1)%10];
-
-		System.out.print(equils);
+		//System.out.println(equils);
 	}
 
-	public void bet(int cash){
+	public void bet(int cash) throws IOException {
+		PrintWriter out = new PrintWriter( socket.getOutputStream(), true );
+
 		if((moneyTab[valueOfPlayer()]- cash)> 0) {
 			pot += cash;
-			moneyTab[valueOfPlayer()] -= cash;
+			moneyTab[valueOfPlayer()]-= cash;
+			myBet[valueOfPlayer()]+= cash;
 		}
+		out.println(moneyTab[valueOfPlayer()]);
+
+	}
+	public void setSmallBlind(){
+		if(what !=0){
+			sb= 0;
+			bb= 1;
+			what= 0;
+
+		}
+		moneyTab[sb]= moneyTab[sb]- 10;
+		pot= pot+ 10;
+		sb= (++sb)% 10;
+	}
+	public void setBigBlind(){
+		moneyTab[bb]= moneyTab[bb]- 20;
+		pot= pot+ 20;
+		bb= (++bb)% 10;
+
+	}
+	public void firstRound(){
+		setSmallBlind();
+		setBigBlind();
+
+	}
+	public void secondRound(){
+
+	}
+	public void thirdRound(){
+
+	}
+	public void fourthRound(){
+
 	}
 
 	public Player(Socket socket, Socket mark) {
@@ -156,7 +209,6 @@ public class Player extends Thread {
 			BufferedReader in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
 			PrintWriter out = new PrintWriter( socket.getOutputStream(), true );
 			InetAddress thisIp = InetAddress.getLocalHost();
-
 			if(Objects.equals(this.getName(), "Thread-1")){
 				this.setName("Player1");
 				out.println(this.getName());
@@ -200,9 +252,24 @@ public class Player extends Thread {
 			}
 			String line;
 			int zaklad;
-			setPlayer();
+			if(equils== null) {
+				equils = "Player1";
+				guy = "Player1";
+			}
+			Timer timer = null;
+			Table timerTask= new Table();
 			while((line = in.readLine()) != null ) {
-
+				/*if(gamers[countOfPlayers].equals(line)& pot== 0){
+					shuffleCards();
+					firstRound();
+				}
+				if(folds[valueOfPlayer()]==1){
+					nextPlayer();
+				}*/
+				//setPlayer();
+				/*if(line== null){
+					timer.schedule(timerTask, 0, 30);
+				}*/
 				if(line.equals("Player1")){
 					guy= "Player1";
 				}if(line.equals("Player2")){
@@ -224,15 +291,18 @@ public class Player extends Thread {
 				}if(line.equals("Player10")){
 					guy= "Player10";
 				}
+				if (line.equals("pot")){
+					//out.println("checkpot");
+					//out.println(pot);
+				}
 				if(line.equals("check")& (guy.equals(equils))) {
 					check();
 					nextPlayer();
 				}
 				if(line.equals("bet")& (guy.equals(equils))){
 					bet(20);
-					zaklad = getMoney();
-					System.out.println(zaklad);
 					nextPlayer();
+
 				}
 				if(line.equals("all_in")& (guy.equals(equils))) {
 					all_in();
@@ -244,9 +314,6 @@ public class Player extends Thread {
 				}
 				if(line.equals("raise")& (guy.equals(equils))) {
 					raise(30);
-					zaklad = getMoney();
-					System.out.println(zaklad);
-					System.out.println(moneyTab[0]);
 					nextPlayer();
 				}
 				if(line.equals("call")& (guy.equals(equils))) {

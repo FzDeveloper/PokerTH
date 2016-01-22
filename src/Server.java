@@ -10,7 +10,7 @@ import java.net.Socket;
 /**
  * Klasa Serwera w ktorej serwer jest uruchamiany na podanym porcie
  */
-public class Server extends Thread {
+public class Server extends Thread implements Runnable{
     ServerSocket server = null;
     Socket client = null;
     BufferedReader in;
