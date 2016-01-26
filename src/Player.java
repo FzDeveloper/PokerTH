@@ -195,8 +195,7 @@ public class Player extends Thread {
 
 	}
 
-	public Player(Socket socket, Socket mark) {
-		this.client = mark;
+	public Player(Socket socket) {
 		this.socket = socket;
 		//String ipAddress = mark.getRemoteAddr();
 	}

@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 /**
  * Created by konrad on 02.12.15.
@@ -94,8 +95,9 @@ public class ChoosenWindow extends JFrame implements KeyListener,ComponentListen
         if (actionEvent.getActionCommand().equals("Join to exist table")) {
             SwingWorker worker = new SwingWorker() {
 
-                protected void process() {
-                    TableGUI table= new TableGUI();
+                protected void process() throws IOException {
+                    Client table= new Client();
+                    table.TableGUI();
                 }
 
                 @Override

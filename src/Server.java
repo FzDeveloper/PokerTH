@@ -12,7 +12,6 @@ import java.net.Socket;
  */
 public class Server extends Thread implements Runnable{
     ServerSocket server = null;
-    Socket client = null;
     BufferedReader in;
     PrintWriter out;
     private boolean running = false;
@@ -54,7 +53,7 @@ public class Server extends Thread implements Runnable{
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream());
-                Player requestHandler = new Player(socket, client);
+                Player requestHandler = new Player(socket);
                 requestHandler.start();
                 requestHandler.setMoney(money);
                 requestHandler.howManyPlayers(players);

@@ -1,7 +1,6 @@
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.IOException;
 
 public class TableGUI extends JFrame implements KeyListener,ComponentListener, ActionListener {
 
@@ -285,7 +284,7 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 	public void actionPerformed(ActionEvent actionEvent) {
 
 		Object source= actionEvent.getSource();
-
+/*
 		if(source== bet){
 			try {
 				client.bet();
@@ -327,7 +326,7 @@ public class TableGUI extends JFrame implements KeyListener,ComponentListener, A
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 
 	}
 

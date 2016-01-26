@@ -2,10 +2,11 @@
  * Created by konrad on 16.12.15.
  */
 import java.util.Random;
+//import java.util.Random.nextInt();
 
 public class Table {
 
-	Player player = new Player();
+	//Player player = new Player();
 	
 	int dealer; //nr gracza, ktory jest dealerem
 	int big; //bigblindem
@@ -15,13 +16,13 @@ public class Table {
 	int smallVal = 20; //kwoty bigblinda i smallblinda, to powinny byc parametry wejsciowe gry ale za pozno na takie ekscesy
 
 	Random rndm = new Random();
-	dealer = rndm.nextInt(10);
-	big = dealer + 1;
-	small = big + 1;
+	//dealer = rndm.nextInt(10);
+	//big = dealer + 1;
+	//small = big + 1;
 	
 	//player.setMoney(); nie za bardzo ogarniam to przydzielanie hajsu jeszcze bo tu trzeba wprowadzic parametr podany przed rozpoczeciem gry
-	player.moneyTab[big] -= bigVal;
-	player.moneyTab[small] -= smallVal;
+	//player.moneyTab[big] -= bigVal;
+	//player.moneyTab[small] -= smallVal;
 		
 	String flgs[] = new String[10]; //czy gracz zfoldowal czy zallinowal
 	

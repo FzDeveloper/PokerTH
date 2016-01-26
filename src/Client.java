@@ -3,99 +3,48 @@
  */
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client extends JFrame implements Runnable  {
     Socket socket;
-    PrintStream out;
+    PrintWriter out;
     BufferedReader in;
     static String player;
     static String pot;
-    //TableGUI table= new TableGUI();
-    public void bet() throws IOException {
-        Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-        PrintStream out = new PrintStream( socket.getOutputStream() );
-        out.println(player);
-        out.println("bet");
-        out.flush();
-        out.close();
-        //socket.close();
+    JButton check = new JButton("Check");
+    JButton bet = new JButton("Bet");
+    JButton raise = new JButton("Raise");
+    JButton call = new JButton("Call");
+    JButton fold = new JButton("Fold");
+    JButton allin = new JButton("All-in");
+    JButton join = new JButton("Join");
+    JButton leave = new JButton("Log out");
+    JLabel stake = new JLabel("W puli:");
 
-    }
-    public void raise() throws IOException{
-        Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-        PrintStream out = new PrintStream( socket.getOutputStream() );
-        out.println(player);
-        out.println("raise");
-        out.flush();
-        out.close();
-        //socket.close();
-    }
-    public void call() throws IOException{
-        Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-        PrintStream out = new PrintStream( socket.getOutputStream() );
-        out.println(player);
-        out.println("call");
-        out.flush();
-        out.close();
-        //socket.close();
-    }
-    public void fold() throws IOException{
-        Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-        PrintStream out = new PrintStream( socket.getOutputStream() );
-        out.println(player);
-        out.println("bet");
-        out.flush();
-        out.close();
-        //socket.close();
-    }
-    public void all_in() throws IOException{
-        Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-        PrintStream out = new PrintStream( socket.getOutputStream() );
-        out.println(player);
-        out.println("all_in");
-        out.flush();
-        out.close();
-        //socket.close();
-    }
-    public void check() throws IOException{
-        Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-        PrintStream out = new PrintStream( socket.getOutputStream() );
-        out.println(player);
-        out.println("check");
-        out.flush();
-        out.close();
-       // socket.close();
-    }
-    /*public void main() throws IOException {
-       run();
+    public void TableGUI() throws IOException{
 
-    }*/
-    public void TableGUI1(){
         //super("Texas Hold'em");
-        /**
-         * gui sto�u, karty s� jlabelami, z boku przyciski do licytacji i jtextarea, w kt�rym b�dzie wy�wietlana
-         * ilo� hajsu w puli podczas licytacji, na razie nie powala pi�kno�ci� dlatego, �e w tle
-         * i na miejscu kart powinny byc jpgi
-         * ale o to zadbam �eby by�y
-         */
-
         setSize(1320, 760);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //ImageIcon background = new ImageIcon("C:\\Users\\Ja\\workspace\\PokerTH\\trunk\\src\\images\background.jpg");
-        //setLayout(new GridLayout(2,1));
+
 
         JLayeredPane layer = new JLayeredPane();
 
         add(layer);
+
+        ImageIcon card = new ImageIcon("src/images/card.jpg");
+
+        ImageIcon backgroundimage = new ImageIcon("src/images/background.jpg");
+        JLabel background = new JLabel(backgroundimage);
+        background.setBounds(0, 0, 1320, 760);
+
+        layer.add(background, new Integer(0));
 
         JLabel player01 = new JLabel("Nick Player01");
         JLabel player02 = new JLabel("Nick Player02");
@@ -108,28 +57,23 @@ public class Client extends JFrame implements Runnable  {
         JLabel player09 = new JLabel("Nick Player09");
         JLabel player10 = new JLabel("Nick Player10");
 
-        JButton check = new JButton("Check");
-        JButton bet = new JButton("Bet");
-        JButton raise = new JButton("Raise");
-        JButton call = new JButton("Call");
-        JButton fold = new JButton("Fold");
-        JButton allin = new JButton("All-in");
-        JButton join = new JButton("Join");
-        JButton leave = new JButton("Log out");
 
-        JLabel stake = new JLabel("W puli:");
+
 
         layer.add(stake, new Integer(1));
 
-        stake.setBounds(1200, 500, 100, 20);
+        stake.setBounds(1060, 500, 100, 20);
 
         JTextArea stakes = new JTextArea();
 
         layer.add(stakes, new Integer(1));
 
-        stakes.setBounds(1200, 530, 100, 40);
+        stakes.setBounds(1050, 530, 100, 40);
 
         stakes.setEditable(false);
+
+
+
 
         layer.add(check, new Integer(1));
         layer.add(bet, new Integer(1));
@@ -140,14 +84,14 @@ public class Client extends JFrame implements Runnable  {
         //layer.add(join, new Integer(1));
         //layer.add(leave, new Integer(1));
 
-        check.setBounds(1200, 20, 100, 60);
-        bet.setBounds(1200, 100, 100, 60);
-        raise.setBounds(1200, 180, 100, 60);
-        call.setBounds(1200, 260, 100, 60);
-        fold.setBounds(1200, 340, 100, 60);
-        allin.setBounds(1200, 420, 100, 60);
-        join.setBounds(1200, 520, 100, 60);
-        leave.setBounds(1200, 520, 100, 60);
+        check.setBounds(1050, 20, 100, 60);
+        bet.setBounds(1050, 100, 100, 60);
+        raise.setBounds(1050, 180, 100, 60);
+        call.setBounds(1050, 260, 100, 60);
+        fold.setBounds(1050, 340, 100, 60);
+        allin.setBounds(1050, 420, 100, 60);
+        join.setBounds(1050, 520, 100, 60);
+        leave.setBounds(1050, 520, 100, 60);
 
         layer.add(player01, new Integer(1));
         layer.add(player02, new Integer(1));
@@ -171,151 +115,131 @@ public class Client extends JFrame implements Runnable  {
         player09.setBounds(405, 15, 100, 20);
         player10.setBounds(275, 15, 100, 20);
 
-        JLabel player01card01 = new JLabel("karta");
-        JLabel player01card02 = new JLabel();
+        JLabel player01card01 = new JLabel(card);
+        JLabel player01card02 = new JLabel(card);
 
         layer.add(player01card01, new Integer(1));
         layer.add(player01card02, new Integer(2));
 
-        player01card01.setBounds(20, 166, 80, 130);
+        player01card01.setBounds(20, 166, 80, 115);
         player01card01.setOpaque(true);
-        player01card01.setBackground(Color.RED);
 
-        player01card02.setBounds(50, 121, 80, 130);
+        player01card02.setBounds(50, 121, 80, 115);
         player01card02.setOpaque(true);
-        player01card02.setBackground(Color.RED);
 
-        JLabel player02card01 = new JLabel("karta");
-        JLabel player02card02 = new JLabel();
+        JLabel player02card01 = new JLabel(card);
+        JLabel player02card02 = new JLabel(card);
 
         layer.add(player02card01, new Integer(1));
         layer.add(player02card02, new Integer(2));
 
-        player02card01.setBounds(20, 466, 80, 130);
+        player02card01.setBounds(20, 466, 80, 115);
         player02card01.setOpaque(true);
-        player02card01.setBackground(Color.RED);
 
-        player02card02.setBounds(50, 421, 80, 130);
+        player02card02.setBounds(50, 421, 80, 115);
         player02card02.setOpaque(true);
-        player02card02.setBackground(Color.RED);
 
-        JLabel player03card01 = new JLabel("karta");
-        JLabel player03card02 = new JLabel();
+        JLabel player03card01 = new JLabel(card);
+        JLabel player03card02 = new JLabel(card);
 
         layer.add(player03card01, new Integer(1));
         layer.add(player03card02, new Integer(2));
 
-        player03card01.setBounds(190, 566, 80, 130);
+        player03card01.setBounds(190, 566, 80, 115);
         player03card01.setOpaque(true);
-        player03card01.setBackground(Color.RED);
 
-        player03card02.setBounds(220, 521, 80, 130);
+        player03card02.setBounds(220, 521, 80, 115);
         player03card02.setOpaque(true);
-        player03card02.setBackground(Color.RED);
 
-        JLabel player04card01 = new JLabel("karta");
-        JLabel player04card02 = new JLabel();
+        JLabel player04card01 = new JLabel(card);
+        JLabel player04card02 = new JLabel(card);
 
         layer.add(player04card01, new Integer(1));
         layer.add(player04card02, new Integer(2));
 
-        player04card01.setBounds(340, 566, 80, 130);
+        player04card01.setBounds(340, 566, 80, 115);
         player04card01.setOpaque(true);
-        player04card01.setBackground(Color.RED);
 
-        player04card02.setBounds(390, 521, 80, 130);
+        player04card02.setBounds(390, 521, 80, 115);
         player04card02.setOpaque(true);
-        player04card02.setBackground(Color.RED);
 
-        JLabel player05card01 = new JLabel("karta");
-        JLabel player05card02 = new JLabel();
+        JLabel player05card01 = new JLabel(card);
+        JLabel player05card02 = new JLabel(card);
 
         layer.add(player05card01, new Integer(1));
         layer.add(player05card02, new Integer(2));
 
-        player05card01.setBounds(530, 566, 80, 130);
+        player05card01.setBounds(530, 566, 80, 115);
         player05card01.setOpaque(true);
-        player05card01.setBackground(Color.RED);
 
-        player05card02.setBounds(560, 521, 80, 130);
+        player05card02.setBounds(560, 521, 80, 115);
         player05card02.setOpaque(true);
-        player05card02.setBackground(Color.RED);
 
-        JLabel player06card01 = new JLabel("karta");
-        JLabel player06card02 = new JLabel();
+        JLabel player06card01 = new JLabel(card);
+        JLabel player06card02 = new JLabel(card);
 
         layer.add(player06card01, new Integer(1));
         layer.add(player06card02, new Integer(2));
 
-        player06card01.setBounds(730, 466, 80, 130);
+        player06card01.setBounds(730, 466, 80, 115);
         player06card01.setOpaque(true);
-        player06card01.setBackground(Color.RED);
 
-        player06card02.setBounds(770, 421, 80, 130);
+        player06card02.setBounds(770, 421, 80, 115);
         player06card02.setOpaque(true);
-        player06card02.setBackground(Color.RED);
 
-        JLabel player07card01 = new JLabel("karta");
-        JLabel player07card02 = new JLabel();
+        JLabel player07card01 = new JLabel(card);
+        JLabel player07card02 = new JLabel(card);
 
         layer.add(player07card01, new Integer(1));
         layer.add(player07card02, new Integer(2));
 
-        player07card01.setBounds(730, 166, 80, 130);
+        player07card01.setBounds(730, 166, 80, 115);
         player07card01.setOpaque(true);
-        player07card01.setBackground(Color.RED);
 
-        player07card02.setBounds(770, 121, 80, 130);
+        player07card02.setBounds(770, 121, 80, 115);
         player07card02.setOpaque(true);
-        player07card02.setBackground(Color.RED);
 
-        JLabel player08card01 = new JLabel("karta");
-        JLabel player08card02 = new JLabel();
+        JLabel player08card01 = new JLabel(card);
+        JLabel player08card02 = new JLabel(card);
 
         layer.add(player08card01, new Integer(1));
         layer.add(player08card02, new Integer(2));
 
-        player08card01.setBounds(530, 106, 80, 130);
+        player08card01.setBounds(530, 106, 80, 115);
         player08card01.setOpaque(true);
-        player08card01.setBackground(Color.RED);
 
-        player08card02.setBounds(560, 61, 80, 130);
+        player08card02.setBounds(560, 61, 80, 115);
         player08card02.setOpaque(true);
-        player08card02.setBackground(Color.RED);
 
-        JLabel player09card01 = new JLabel("karta");
-        JLabel player09card02 = new JLabel();
+        JLabel player09card01 = new JLabel(card);
+        JLabel player09card02 = new JLabel(card);
 
         layer.add(player09card01, new Integer(1));
         layer.add(player09card02, new Integer(2));
 
-        player09card01.setBounds(340, 106, 80, 130);
+        player09card01.setBounds(340, 106, 80, 115);
         player09card01.setOpaque(true);
-        player09card01.setBackground(Color.RED);
 
-        player09card02.setBounds(390, 61, 80, 130);
+        player09card02.setBounds(390, 61, 80, 115);
         player09card02.setOpaque(true);
-        player09card02.setBackground(Color.RED);
 
-        JLabel player10card01 = new JLabel("karta");
-        JLabel player10card02 = new JLabel();
+        JLabel player10card01 = new JLabel(card);
+        JLabel player10card02 = new JLabel(card);
 
         layer.add(player10card01, new Integer(1));
         layer.add(player10card02, new Integer(2));
 
-        player10card01.setBounds(190, 106, 80, 130);
+        player10card01.setBounds(190, 106, 80, 115);
         player10card01.setOpaque(true);
-        player10card01.setBackground(Color.RED);
 
-        player10card02.setBounds(220, 61, 80, 130);
+        player10card02.setBounds(220, 61, 80, 115);
         player10card02.setOpaque(true);
-        player10card02.setBackground(Color.RED);
 
-        JLabel flopcard01 = new JLabel();
-        JLabel flopcard02 = new JLabel();
-        JLabel flopcard03 = new JLabel();
-        JLabel flopcard04 = new JLabel();
-        JLabel flopcard05 = new JLabel();
+        JLabel flopcard01 = new JLabel(card);
+        JLabel flopcard02 = new JLabel(card);
+        JLabel flopcard03 = new JLabel(card);
+        JLabel flopcard04 = new JLabel(card);
+        JLabel flopcard05 = new JLabel(card);
 
         layer.add(flopcard01, new Integer(1));
         layer.add(flopcard02, new Integer(1));
@@ -323,11 +247,11 @@ public class Client extends JFrame implements Runnable  {
         layer.add(flopcard04, new Integer(1));
         layer.add(flopcard05, new Integer(1));
 
-        flopcard01.setBounds(300, 305, 80, 130);
-        flopcard02.setBounds(390, 305, 80, 130);
-        flopcard03.setBounds(480, 305, 80, 130);
-        flopcard04.setBounds(570, 305, 80, 130);
-        flopcard05.setBounds(660, 305, 80, 130);
+        flopcard01.setBounds(220, 305, 80, 115);
+        flopcard02.setBounds(310, 305, 80, 115);
+        flopcard03.setBounds(400, 305, 80, 115);
+        flopcard04.setBounds(490, 305, 80, 115);
+        flopcard05.setBounds(580, 305, 80, 115);
 
         flopcard01.setOpaque(true);
         flopcard02.setOpaque(true);
@@ -335,16 +259,61 @@ public class Client extends JFrame implements Runnable  {
         flopcard04.setOpaque(true);
         flopcard05.setOpaque(true);
 
-        flopcard01.setBackground(Color.BLUE);
-        flopcard02.setBackground(Color.BLUE);
-        flopcard03.setBackground(Color.BLUE);
-        flopcard04.setBackground(Color.BLUE);
-        //flopcard05.setBackground(Color.BLUE);
         setVisible(true);
 
+        bet.addActionListener(new ActionListener() {
 
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+                //Here call your sender fucntion
+                out.println("bet");
+            }
+        });
+        call.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+                //Here call your sender fucntion
+                out.println("call");
+            }
+        });
+        check.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+                //Here call your sender fucntion
+                out.println("check");
+            }
+        });
+        fold.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+                //Here call your sender fucntion
+                out.println("fold");
+            }
+        });
+        raise.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                //Execute when button is pressed
+                //Here call your sender fucntion
+                out.println("raise");
+            }
+        });
+        allin.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                out.println("allin");
+            }
+        });
     }
-   // TableGUI table= new TableGUI();
     @Override
     public void run() {
         String line;
