@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client extends JFrame implements Runnable  {
+public class Client extends JFrame implements Runnable, ActionListener {
     Socket socket;
     PrintWriter out;
     BufferedReader in;
@@ -25,13 +25,18 @@ public class Client extends JFrame implements Runnable  {
     JButton join = new JButton("Join");
     JButton leave = new JButton("Log out");
     JLabel stake = new JLabel("W puli:");
+    ChangeCard cardLay= new ChangeCard();
+    public void TableGUI() throws IOException {
 
-    public void TableGUI() throws IOException{
 
+    }
+
+    @Override
+    public void run() {
         //super("Texas Hold'em");
         setSize(1320, 760);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
         JLayeredPane layer = new JLayeredPane();
@@ -39,6 +44,8 @@ public class Client extends JFrame implements Runnable  {
         add(layer);
 
         ImageIcon card = new ImageIcon("src/images/card.jpg");
+        ImageIcon card2 = new ImageIcon("src/images/card_00.png");
+
 
         ImageIcon backgroundimage = new ImageIcon("src/images/background.jpg");
         JLabel background = new JLabel(backgroundimage);
@@ -58,8 +65,6 @@ public class Client extends JFrame implements Runnable  {
         JLabel player10 = new JLabel("Nick Player10");
 
 
-
-
         layer.add(stake, new Integer(1));
 
         stake.setBounds(1060, 500, 100, 20);
@@ -71,8 +76,6 @@ public class Client extends JFrame implements Runnable  {
         stakes.setBounds(1050, 530, 100, 40);
 
         stakes.setEditable(false);
-
-
 
 
         layer.add(check, new Integer(1));
@@ -260,7 +263,6 @@ public class Client extends JFrame implements Runnable  {
         flopcard05.setOpaque(true);
 
         setVisible(true);
-
         bet.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e)
@@ -268,6 +270,7 @@ public class Client extends JFrame implements Runnable  {
                 //Execute when button is pressed
                 //Here call your sender fucntion
                 out.println("bet");
+                out.flush();
             }
         });
         call.addActionListener(new ActionListener() {
@@ -277,6 +280,7 @@ public class Client extends JFrame implements Runnable  {
                 //Execute when button is pressed
                 //Here call your sender fucntion
                 out.println("call");
+                out.flush();
             }
         });
         check.addActionListener(new ActionListener() {
@@ -286,6 +290,7 @@ public class Client extends JFrame implements Runnable  {
                 //Execute when button is pressed
                 //Here call your sender fucntion
                 out.println("check");
+                out.flush();
             }
         });
         fold.addActionListener(new ActionListener() {
@@ -295,6 +300,7 @@ public class Client extends JFrame implements Runnable  {
                 //Execute when button is pressed
                 //Here call your sender fucntion
                 out.println("fold");
+                out.flush();
             }
         });
         raise.addActionListener(new ActionListener() {
@@ -304,6 +310,7 @@ public class Client extends JFrame implements Runnable  {
                 //Execute when button is pressed
                 //Here call your sender fucntion
                 out.println("raise");
+                out.flush();
             }
         });
         allin.addActionListener(new ActionListener() {
@@ -313,60 +320,87 @@ public class Client extends JFrame implements Runnable  {
                 out.println("allin");
             }
         });
-    }
-    @Override
-    public void run() {
-        String line;
-        try {
-            Socket socket = new Socket(InetAddress.getLocalHost(), 44444);
-            PrintStream out = new PrintStream(socket.getOutputStream());
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            while ((line = in.readLine()) != null) {
-                System.out.print(line);
 
-                if (line.equals("Player1")) {
-                    player = "Player1";
-                }
-                if (line.equals("Player2")) {
-                    player = "Player2";
-                }
-                if (line.equals("Player3")) {
-                    player = "Player3";
-                }
-                if (line.equals("Player4")) {
-                    player = "Player4";
-                }
-                if (line.equals("Player5")) {
-                    player = "Player5";
-                }
-                if (line.equals("Player6")) {
-                    player = "Player6";
-                }
-                if (line.equals("Player7")) {
-                    player = "Player7";
-                }
-                if (line.equals("Player8")) {
-                    player = "Player8";
-                }
-                if (line.equals("Player9")) {
-                    player = "Player9";
-                }
-                if (line.equals("Player10")) {
-                    player = "Player10";
-                }
-                if (line.equals("pot")) {
-                    pot = line;
-                }
+        while (true){
+            String line;
+            try {
+                /*Socket */
+                socket = new Socket(InetAddress.getLocalHost(), 44444);
+                out = new PrintWriter(socket.getOutputStream());
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                while ((line = in.readLine()) != null) {
+                    String wejscie= in.readLine();
+                    String[] data= line.split("\\.");
+                    System.out.print(line);
+                    System.out.println(wejscie+" "+data[0]+" "+data[1]+" "+data[2]);
 
+                    if(data[0].equals("Player1")){
+                        System.out.println(data[0]+" "+data[1]+" "+data[2]);
+                        player01card01.setIcon(cardLay.cardLayout(data[1]));
+                        player01card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player2")){
+                        player02card01.setIcon(cardLay.cardLayout(data[1]));
+                        player02card02.setIcon(cardLay.cardLayout(data[2]));
+                    }
+                    if(line.equals("biala")){
+                        player08card02.setIcon(cardLay.cardLayout("Ah"));
+
+                    }
+                    if (line.equals("Player1")) {
+                        player = "Player1";
+                    }
+                    if (line.equals("Player2")) {
+                        player = "Player2";
+                    }
+                    if (line.equals("Player3")) {
+                        player = "Player3";
+                    }
+                    if (line.equals("Player4")) {
+                        player = "Player4";
+                    }
+                    if (line.equals("Player5")) {
+                        player = "Player5";
+                    }
+                    if (line.equals("Player6")) {
+                        player = "Player6";
+                    }
+                    if (line.equals("Player7")) {
+                        player = "Player7";
+                    }
+                    if (line.equals("Player8")) {
+                        player = "Player8";
+                    }
+                    if (line.equals("Player9")) {
+                        player = "Player9";
+                    }
+                    if (line.equals("Player10")) {
+                        player = "Player10";
+                    }
+                    if (line.equals("pot")) {
+                        pot = line;
+                    }
+
+                }
+                in.close();
+                out.close();
+                socket.close();
+
+            } catch (UnknownHostException e) {
+                System.out.print("Nieznany host");
+            } catch (IOException e) {
+                System.out.print("Brak polaczenia, sprawdz serwer");
             }
-            in.close();
-            out.close();
-            socket.close();
-
-        } catch (UnknownHostException e) {
-            System.out.print("Nieznany host");
-        } catch (IOException e) {
-            System.out.print("Brak polaczenia, sprawdz serwer");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+
     }
 }

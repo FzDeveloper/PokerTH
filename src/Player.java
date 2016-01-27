@@ -2,12 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
 
 public class Player extends Thread {
 
@@ -31,6 +29,7 @@ public class Player extends Thread {
 	static int bb;
 	static int what;
 	PrintWriter out;
+	BufferedReader in;
 
 	public void howManyPlayers(int hmp){
 		if(countOfPlayers==0) {
@@ -161,6 +160,9 @@ public class Player extends Thread {
 			myBet[valueOfPlayer()]+= cash;
 		}
 		out.println(moneyTab[valueOfPlayer()]);
+		out.flush();
+		System.out.println(moneyTab[valueOfPlayer()]);
+
 
 	}
 	public void setSmallBlind(){
@@ -205,9 +207,8 @@ public class Player extends Thread {
 	public void run() {
 
 		try {
-			BufferedReader in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
-			PrintWriter out = new PrintWriter( socket.getOutputStream(), true );
-			InetAddress thisIp = InetAddress.getLocalHost();
+			in = new BufferedReader( new InputStreamReader( socket.getInputStream() ) );
+			out = new PrintWriter( socket.getOutputStream(), true );
 			if(Objects.equals(this.getName(), "Thread-1")){
 				this.setName("Player1");
 				out.println(this.getName());
@@ -255,69 +256,10 @@ public class Player extends Thread {
 				equils = "Player1";
 				guy = "Player1";
 			}
-			Timer timer = null;
-			Table timerTask= new Table();
 			while((line = in.readLine()) != null ) {
-				/*if(gamers[countOfPlayers].equals(line)& pot== 0){
-					shuffleCards();
-					firstRound();
-				}
-				if(folds[valueOfPlayer()]==1){
-					nextPlayer();
-				}*/
-				//setPlayer();
-				/*if(line== null){
-					timer.schedule(timerTask, 0, 30);
-				}*/
-				if(line.equals("Player1")){
-					guy= "Player1";
-				}if(line.equals("Player2")){
-					guy= "Player2";
-				}if(line.equals("Player3")){
-					guy= "Player3";
-				}if(line.equals("Player4")){
-					guy= "Player4";
-				}if(line.equals("Player5")){
-					guy= "Player5";
-				}if(line.equals("Player6")){
-					guy= "Player6";
-				}if(line.equals("Player7")){
-					guy= "Player7";
-				}if(line.equals("Player8")){
-					guy= "Player8";
-				}if(line.equals("Player9")){
-					guy= "Player9";
-				}if(line.equals("Player10")){
-					guy= "Player10";
-				}
-				if (line.equals("pot")){
-					//out.println("checkpot");
-					//out.println(pot);
-				}
-				if(line.equals("check")& (guy.equals(equils))) {
-					check();
-					nextPlayer();
-				}
-				if(line.equals("bet")& (guy.equals(equils))){
-					bet(20);
-					nextPlayer();
+				if(line.equals("bet")) {
+					betcos();
 
-				}
-				if(line.equals("all_in")& (guy.equals(equils))) {
-					all_in();
-					nextPlayer();
-				}
-				if(line.equals("fold")& (guy.equals(equils))) {
-					fold();
-					nextPlayer();
-				}
-				if(line.equals("raise")& (guy.equals(equils))) {
-					raise(30);
-					nextPlayer();
-				}
-				if(line.equals("call")& (guy.equals(equils))) {
-					call();
-					nextPlayer();
 				}
 			}
 			in.close();
@@ -330,6 +272,11 @@ public class Player extends Thread {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void betcos() {
+		out.println("Player1c.Ah.Jc");
+		out.flush();
 	}
 
 }

@@ -55,8 +55,8 @@ public class Server extends Thread implements Runnable{
                 PrintWriter out = new PrintWriter(socket.getOutputStream());
                 Player requestHandler = new Player(socket);
                 requestHandler.start();
-                requestHandler.setMoney(money);
-                requestHandler.howManyPlayers(players);
+                //requestHandler.setMoney(money);
+                //requestHandler.howManyPlayers(players);
                 
             } catch (IOException e) {
                 e.printStackTrace();
