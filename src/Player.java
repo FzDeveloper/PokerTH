@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Player extends Thread {
-
-	private static CreateCards cards= new CreateCards();
+	//private static CreateCards cards= new CreateCards();
 	private static GiveCards howMany= new GiveCards();
 	List<String> shuffleit;
 	List<String> karty;
@@ -96,7 +95,7 @@ public class Player extends Thread {
 		moneyTab[valueOfPlayer()]= 0;
 	}
 	public void shuffleCards(){
-		shuffleit = cards.initialize();
+		//shuffleit = cards.initialize();
 		Collections.shuffle(shuffleit);
 		karty = howMany.giveCard(shuffleit, 20);
 	}
@@ -212,43 +211,62 @@ public class Player extends Thread {
 			if(Objects.equals(this.getName(), "Thread-1")){
 				this.setName("Player1");
 				out.println(this.getName());
+				out.flush();
+
 
 			}
 			if(Objects.equals(this.getName(), "Thread-2")){
 				this.setName("Player2");
 				out.println(this.getName());
+				out.flush();
 			}
 			if(Objects.equals(this.getName(), "Thread-3")){
 				this.setName("Player3");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			if(Objects.equals(this.getName(), "Thread-4")){
 				this.setName("Player4");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			if(Objects.equals(this.getName(), "Thread-4")){
 				this.setName("Player5");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			if(Objects.equals(this.getName(), "Thread-5")){
 				this.setName("Player6");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			if(Objects.equals(this.getName(), "Thread-6")){
 				this.setName("Player7");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			if(Objects.equals(this.getName(), "Thread-7")){
 				this.setName("Player8");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			if(Objects.equals(this.getName(), "Thread-8")){
 				this.setName("Player9");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			if(Objects.equals(this.getName(), "Thread-9")){
 				this.setName("Player10");
 				out.println(this.getName());
+				out.flush();
+
 			}
 			String line;
 			int zaklad;
@@ -257,7 +275,8 @@ public class Player extends Thread {
 				guy = "Player1";
 			}
 			while((line = in.readLine()) != null ) {
-				if(line.equals("bet")) {
+				System.out.println(line);
+				if(line.equals("null.bet")) {
 					betcos();
 
 				}
@@ -275,8 +294,9 @@ public class Player extends Thread {
 	}
 
 	private void betcos() {
-		out.println("Player1c.Ah.Jc");
+		out.println("Player1.Ah.Jc");
 		out.flush();
+
 	}
 
 }

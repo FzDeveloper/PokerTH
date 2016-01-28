@@ -22,16 +22,16 @@ public class CreateCards {
         return listOfCards;
     }
 
-    
-    public String[] getSuiteArray(){
-    	return this.suite;
-    }
-    
-    public String[] getRankArray(){
-    	return this.rank;
-    }
-    
 
-    
-  
+    public String[] getSuiteArray(){
+        return this.suite;
+    }
+
+    public String[] getRankArray(){
+        return this.rank;
+    }
+
+
+
+
 }

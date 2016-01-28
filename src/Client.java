@@ -267,9 +267,7 @@ public class Client extends JFrame implements Runnable, ActionListener {
 
             public void actionPerformed(ActionEvent e)
             {
-                //Execute when button is pressed
-                //Here call your sender fucntion
-                out.println("bet");
+                out.println(player + ".bet");
                 out.flush();
             }
         });
@@ -277,9 +275,7 @@ public class Client extends JFrame implements Runnable, ActionListener {
 
             public void actionPerformed(ActionEvent e)
             {
-                //Execute when button is pressed
-                //Here call your sender fucntion
-                out.println("call");
+                out.println(player + ".call");
                 out.flush();
             }
         });
@@ -287,9 +283,7 @@ public class Client extends JFrame implements Runnable, ActionListener {
 
             public void actionPerformed(ActionEvent e)
             {
-                //Execute when button is pressed
-                //Here call your sender fucntion
-                out.println("check");
+                out.println(player + ".check");
                 out.flush();
             }
         });
@@ -297,9 +291,7 @@ public class Client extends JFrame implements Runnable, ActionListener {
 
             public void actionPerformed(ActionEvent e)
             {
-                //Execute when button is pressed
-                //Here call your sender fucntion
-                out.println("fold");
+                out.println(player + ".fold");
                 out.flush();
             }
         });
@@ -307,9 +299,7 @@ public class Client extends JFrame implements Runnable, ActionListener {
 
             public void actionPerformed(ActionEvent e)
             {
-                //Execute when button is pressed
-                //Here call your sender fucntion
-                out.println("raise");
+                out.println(player+".raise");
                 out.flush();
             }
         });
@@ -317,7 +307,8 @@ public class Client extends JFrame implements Runnable, ActionListener {
 
             public void actionPerformed(ActionEvent e)
             {
-                out.println("allin");
+                out.println(player+".allin");
+                out.flush();
             }
         });
 
@@ -330,22 +321,8 @@ public class Client extends JFrame implements Runnable, ActionListener {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 while ((line = in.readLine()) != null) {
                     String wejscie= in.readLine();
-                    String[] data= line.split("\\.");
-                    System.out.print(line);
+                    String[] data= wejscie.split("\\.");
                     System.out.println(wejscie+" "+data[0]+" "+data[1]+" "+data[2]);
-
-                    if(data[0].equals("Player1")){
-                        System.out.println(data[0]+" "+data[1]+" "+data[2]);
-                        player01card01.setIcon(cardLay.cardLayout(data[1]));
-                        player01card02.setIcon(cardLay.cardLayout(data[2]));
-                    }if(data[0].equals("Player2")){
-                        player02card01.setIcon(cardLay.cardLayout(data[1]));
-                        player02card02.setIcon(cardLay.cardLayout(data[2]));
-                    }
-                    if(line.equals("biala")){
-                        player08card02.setIcon(cardLay.cardLayout("Ah"));
-
-                    }
                     if (line.equals("Player1")) {
                         player = "Player1";
                     }
@@ -375,6 +352,39 @@ public class Client extends JFrame implements Runnable, ActionListener {
                     }
                     if (line.equals("Player10")) {
                         player = "Player10";
+                    }
+                    if(data[0].equals("Player1") && player.equals("Player1")){
+                        player01card01.setIcon(cardLay.cardLayout(data[1]));
+                        player01card02.setIcon(cardLay.cardLayout(data[2]));
+                        player01.setText("Player1 money");
+
+                    }if(data[0].equals("Player2") && player.equals("Player2")){
+                        player02card01.setIcon(cardLay.cardLayout(data[1]));
+                        player02card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player3") && player.equals("Player3")){
+                        player03card01.setIcon(cardLay.cardLayout(data[1]));
+                        player03card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player4") && player.equals("Player4")){
+                        player04card01.setIcon(cardLay.cardLayout(data[1]));
+                        player04card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player5") && player.equals("Player5")){
+                        player05card01.setIcon(cardLay.cardLayout(data[1]));
+                        player05card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player6") && player.equals("Player6")){
+                        player06card01.setIcon(cardLay.cardLayout(data[1]));
+                        player06card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player7") && player.equals("Player7")){
+                        player07card01.setIcon(cardLay.cardLayout(data[1]));
+                        player07card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player8") && player.equals("Player8")){
+                        player08card01.setIcon(cardLay.cardLayout(data[1]));
+                        player08card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player9") && player.equals("Player9")){
+                        player09card01.setIcon(cardLay.cardLayout(data[1]));
+                        player09card02.setIcon(cardLay.cardLayout(data[2]));
+                    }if(data[0].equals("Player10") && player.equals("Player10")){
+                        player10card01.setIcon(cardLay.cardLayout(data[1]));
+                        player10card02.setIcon(cardLay.cardLayout(data[2]));
                     }
                     if (line.equals("pot")) {
                         pot = line;
